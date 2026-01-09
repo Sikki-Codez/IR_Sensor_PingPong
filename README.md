@@ -29,7 +29,7 @@ To replicate this project (or run the Proteus simulation), you need:
 | **Jumper Wires** | - | M-M and M-F wires |
 
 ## 🔌 Wiring Configuration
-This configuration matches the `simulationfinalfinal.pdsprj` file and `ping_pong_Code.ino`.
+This configuration matches the `Simulation.pdsprj` file and `ping_pong_Code.ino`.
 
 ### 1. I2C OLED Display
 * **VCC:** 5V
@@ -40,6 +40,7 @@ This configuration matches the `simulationfinalfinal.pdsprj` file and `ping_pong
 
 ### 2. Scoreboard Logic (74HC595 Shift Register)
 The Arduino sends serial data to the 74HC595, which then lights up the 7-segment display.
+
 * **DS (Data):** Digital Pin **2**
 * **SHCP (Clock):** Digital Pin **3**
 * **STCP (Latch):** Digital Pin **4**
@@ -72,9 +73,9 @@ The Arduino sends serial data to the 74HC595, which then lights up the 7-segment
 
 ## 📂 File Structure
 * `code/ping_pong_Code.ino` - The main C++ source code containing game loop, ISRs, and display logic.
-* `simulation/simulationfinalfinal.pdsprj` - Full Proteus design suite file.
-* `simulation/ROOT.DSN` - The schematic design for Proteus.
-* `CE_221_report.pdf` - Detailed project report explaining the logic synthesis and block diagrams.
+* `code/sketch_dec21a.ino` - Auxiliary or backup sketch file.
+* `Simulation.pdsprj` - Contains the Proteus simulation files (`ROOT.DSN`, `PROJECT.XML`).
+* `Project Report.pdf` - Detailed project report explaining the logic synthesis and block diagrams.
 
 ## ❓ Troubleshooting & User Advice
 
@@ -97,4 +98,4 @@ The Arduino sends serial data to the 74HC595, which then lights up the 7-segment
 * **Muhammad Zaid** (2024491)
 
 ## 📜 License
-This project is open-source and developed for educational purposes at **GIK Institute** (CE-231 DLD Lab).
+This project is open-source and developed for educational purposes at **GIK Institute** (CE-221 DLD Lab).
