@@ -1,65 +1,67 @@
+# Digital Table Tennis Game with IR Paddle Control
 
-**Ping‑Pong Game — DLD Project**
+## 📌 Project Overview
+This project is a hardware-based recreation of the classic Pong game, developed for the **CE-231 Digital Logic Design Lab**. It integrates a microcontroller with external digital logic circuits to create an interactive gaming experience.
 
-- **Overview:** A two‑player electronic ping‑pong game built on Arduino with an SH1106 OLED, a 7‑segment score display driven by a 74HC595 shift register, IR/analog inputs for paddles, and a buzzer for sound effects. This repository contains the sketch used for the DLD course project.
+Unlike traditional button controls, this system uses **Infrared (IR) Obstacle Sensors** to detect hand gestures, allowing players to move paddles intuitively. The game logic runs on an Arduino, rendering graphics on an OLED screen while offloading score management to an external 7-segment display circuit driven by shift registers.
 
-**Features:**
-- Two local players with independent up/down inputs.
-- OLED game display with moving ball and paddles.
-- External 7‑segment score display via a 74HC595 shift register.
-- Buzzer sounds for bounces, scoring, victory, and reset.
+## 🚀 Key Features
+* **Gesture Control:** Non-contact paddle movement using IR sensors and analog thresholding.
+* **Hybrid Display System:**
+    * **Game Arena:** 128x64 OLED (SH1106) displays the ball, paddles, and physics interactions.
+    * **Scoreboard:** 2-digit 7-segment display driven by a **74HC595 Shift Register**.
+* **Audio Feedback:** Piezo buzzer provides sound effects for wall bounces, paddle hits, and scoring events.
+* **Digital Logic Integration:** Demonstrates the interface between microcontrollers (ATmega328P) and serial-to-parallel logic chips.
 
-**Hardware (recommended):**
-- Arduino Uno (or compatible)
-- SH1106 / SH110X OLED (128x64, I2C)
-- 74HC595 shift register
-- 2 × IR/analog sensors or potentiometers (player paddle inputs)
-- 7‑segment common‑cathode display (2 digits)
-- Piezo buzzer
-- Momentary push button (reset)
-- Jumper wires, resistors (current limiting for 7‑segment), breadboard
+## 🛠️ Hardware Requirements
+To replicate this project, you will need the following components (as used in the provided Proteus simulation):
 
-**Wiring (as used in the sketch):**
-- OLED: I2C (SDA / SCL) to Arduino SDA / SCL (A4 / A5 on Uno). OLED I2C address used: `0x3C`.
-- Shift register (74HC595):
-	- LATCH (`STCP`) -> Arduino digital pin `4`
-	- CLOCK (`SHCP`) -> Arduino digital pin `3`
-	- DATA (`DS`)  -> Arduino digital pin `2`
-	- 7‑segment is common‑cathode; ensure appropriate current‑limit resistors on each segment.
-- Paddle inputs:
-	- Player 1 UP -> `A0`
-	- Player 1 DOWN -> `A1`
-	- Player 2 UP -> `A2`
-	- Player 2 DOWN -> `A3`
-- Buzzer -> digital pin `6`
-- Reset button -> digital pin `7` (configured as `INPUT_PULLUP` in code)
+| Component | Quantity | Description |
+| :--- | :---: | :--- |
+| **Microcontroller** | 1 | Arduino Uno (ATmega328P) |
+| **Display (Graph)** | 1 | SH1106 / SH110X OLED (128x64 I2C) |
+| **Shift Register** | 1 | 74HC595 (8-bit Serial-in/Parallel-out) |
+| **Sensors** | 2 | IR Obstacle Avoidance Sensors (or Potentiometers) |
+| **Display (Score)** | 1 | 7-Segment Common Cathode Display (2-digit) |
+| **Audio** | 1 | Piezo Buzzer |
+| **Misc** | - | Resistors, Jumper Wires, Breadboard |
 
-**Software / Libraries:**
-- Arduino IDE (or compatible build/upload tool)
-- Install libraries: `Adafruit_GFX` and `Adafruit_SH110X` (SH1106/SH110X driver used in the sketch)
+## 🔌 Circuit & Wiring Configuration
+### 1. OLED Display (I2C)
+* **SDA:** Pin A4
+* **SCL:** Pin A5
+* **VCC/GND:** 5V / GND
 
-**How to build & run**
-1. Open the sketch file: [code/ping_pong_Code.ino](code/ping_pong_Code.ino).
-2. Install required libraries in the Arduino IDE (`Adafruit_GFX`, `Adafruit_SH110X`).
-3. Select your board (e.g., Arduino Uno) and correct COM port.
-4. Upload the sketch to the board.
-5. Power the OLED and 7‑segment and test controls. Press the reset button to restart the game.
+### 2. Scoreboard (74HC595 Shift Register)
+The Arduino sends score data serially to the shift register, which drives the 7-segment display to save GPIO pins.
+* **LATCH (STCP):** Digital Pin 4
+* **CLOCK (SHCP):** Digital Pin 3
+* **DATA (DS):** Digital Pin 2
 
-**Sketch notes & configurable values**
-- Max score is set by `maxScore` (default `9`).
-- Paddle movement checks analog readings against a threshold (`>600`), adjust if your sensors behave differently.
-- The 7‑segment is updated via `shiftOut()`; the sketch sends `player2Score` first, then `player1Score`.
+### 3. Input & Audio
+* **Player 1 Input:** Analog Pin A0 (or defined digital pin in code)
+* **Player 2 Input:** Analog Pin A1
+* **Buzzer:** Digital Pin (Defined in sketch, typically PWM enabled)
 
-**Files**
-- [code/ping_pong_Code.ino](code/ping_pong_Code.ino) — main Arduino sketch implementing game logic, display, sound, and score handling.
+## 💻 Software & Libraries
+The project is written in **C++ (Arduino)**. You must install the following libraries in your Arduino IDE before compiling:
 
-**Troubleshooting**
-- If the OLED stays blank: verify I2C wiring and address, try scanning I2C bus to confirm address.
-- If scores don’t update: check shift register wiring, latch/clock/data pins and 7‑segment common cathode wiring/resistors.
-- If paddle inputs are noisy, add smoothing or adjust thresholds in the sketch.
+1.  `Adafruit_GFX` (Graphics Core)
+2.  `Adafruit_SH110X` (OLED Driver)
 
-If you want, I can also:
-- add a wiring diagram or Fritzing sketch;
-- convert analog paddle inputs to button inputs for simpler testing;
-- prepare a parts list with links.
+### Installation Steps
+1.  Open the file `code/ping_pong_Code.ino` in Arduino IDE.
+2.  Go to **Tools > Manage Libraries**.
+3.  Search for and install the libraries listed above.
+4.  Select your Board (Arduino Uno) and Port.
+5.  Upload the code.
 
+## 🔧 Simulation (Proteus)
+A complete simulation file is included in the `simulationfinalfinal.pdsprj.zip` archive.
+1.  Extract the zip file.
+2.  Open `ROOT.DSN` in Proteus ISIS.
+3.  Ensure the `HEX` file path in the Arduino component properties points to your compiled firmware.
+4.  Run the simulation to verify logic and display drivers.
+
+## 📄 License
+This project is open-source and intended for educational purposes under the Digital Logic Design curriculum.
